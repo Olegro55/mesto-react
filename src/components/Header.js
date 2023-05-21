@@ -1,4 +1,4 @@
-import logoPath from '../../images/logo.svg';
+import logoPath from '../images/logo.svg';
 
 function Header() {
     return (
