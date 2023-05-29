@@ -3,6 +3,9 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -43,33 +46,13 @@ function App() {
         <Main onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
         <Footer />
 
-        <PopupWithForm name="edit-profile" title="Редактировать профиль" buttonText="Сохранить" isOpened={isEditProfilePopupOpen} onClose={closeAllPopups}>
-          <fieldset className="popup__input">
-            <input id="name-input" type="text" name="name" className="popup__item popup__item_type_name" placeholder="Ваше имя" minLength="2" maxLength="40" required />
-            <span className="name-input-error popup__input-error"></span>
-            <input id="about-input" type="text" name="about" className="popup__item popup__item_type_about" placeholder="О себе" minLength="2" maxLength="200" required />
-            <span className="about-input-error popup__input-error"></span>
-          </fieldset>
-        </PopupWithForm>
-
-        <PopupWithForm name="edit-profile-image" title="Обновить аватар" buttonText="Сохранить" isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-          <fieldset className="popup__input">
-            <input id="image-input" type="url" name="avatar" className="popup__item popup__item_type_image" placeholder="Ссылка на картинку" required />
-            <span className="image-input-error popup__input-error"></span>
-          </fieldset>
-        </PopupWithForm>
+        <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
+        <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} /> 
 
         <PopupWithForm name="confirm-deletion" title="Вы уверены?" buttonText="Да">
         </PopupWithForm>
 
-        <PopupWithForm name="add-element" title="Новое место" buttonText="Создать" isOpened={isAddPlacePopupOpen} onClose={closeAllPopups}>
-          <fieldset className="popup__input">
-            <input id="place-input" type="text" name="name" className="popup__item popup__item_type_place" placeholder="Название" minLength="2" maxLength="30" required />
-            <span className="place-input-error popup__input-error"></span>
-            <input id="photo-input" type="url" name="link" className="popup__item popup__item_type_photo" placeholder="Ссылка на картинку" required />
-            <span className="photo-input-error popup__input-error"></span>
-          </fieldset>
-        </PopupWithForm>
+        <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} /> 
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
