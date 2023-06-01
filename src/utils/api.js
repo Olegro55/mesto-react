@@ -58,9 +58,9 @@ class Api {
     });
   }
 
-  likeCard(cardId, cardAction) {
+  likeCard(cardId, isLiked) {
     return this._request(`cards/${cardId}/likes`, {
-      method: cardAction,
+      method: isLiked ? 'PUT' : 'DELETE',
       headers: this._headers
     });
   }
