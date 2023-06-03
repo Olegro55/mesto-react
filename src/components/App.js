@@ -16,7 +16,11 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({
+    name: '',
+    about: '',
+    avatar: '',
+  });
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
@@ -47,16 +51,36 @@ function App() {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     });
   }
+  function handleUpdateUser(data) {
+    api.setUserInfo(data)
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  }
+  function handleUpdateAvatar(data) {
+    api.setUserImage(data)
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main cards={cards} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} onLike={handleCardLike}/>
+        <Main cards={cards} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} onLike={handleCardLike} />
         <Footer />
 
-        <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+        <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
         <PopupWithForm name="confirm-deletion" title="Вы уверены?" buttonText="Да">
         </PopupWithForm>
