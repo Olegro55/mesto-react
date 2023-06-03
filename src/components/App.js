@@ -51,6 +51,17 @@ function App() {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     });
   }
+  function handleCardDelete(card) {
+    api.deleteCard(card)
+      .then(_ => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  }
+
   function handleUpdateUser(data) {
     api.setUserInfo(data)
       .then((userData) => {
@@ -71,21 +82,39 @@ function App() {
         console.error(`Ошибка: ${err}`);
       });
   }
+  function handleAddPlace(data) {
+    api.addCard(data)
+      .then((cardData) => {
+        setCards([cardData, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main cards={cards} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} onLike={handleCardLike} />
+        <Main
+          cards={cards}
+          onEditProfile={handleEditProfileClick}
+          onEditAvatar={handleEditAvatarClick}
+          onAddPlace={handleAddPlaceClick}
+          onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+        />
         <Footer />
 
         <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-        <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+        <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
         <PopupWithForm name="confirm-deletion" title="Вы уверены?" buttonText="Да">
         </PopupWithForm>
 
-        <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} />
+        <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace} />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
