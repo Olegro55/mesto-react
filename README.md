@@ -11,7 +11,8 @@
 * Использование функций calc()
 * Оптимизация шрифтов
 * Медиазапросы @media
-* DOM, JavaScript, ООП, ES6 Modules, Webpack, API
+* DOM, JavaScript, ООП, ES6 Modules, Webpack, API, JSX
+* REACT, aункциональные и классовые компоненты, хуки
 
 ### Цель проекта
 
