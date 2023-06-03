@@ -5,6 +5,17 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 function Main({ cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardDelete }) {
 
     const currentUser = React.useContext(CurrentUserContext);
+    const cardsElements = cards.map((card) => {
+        return (
+            <Card
+                key={card._id}
+                card={card}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
+            />
+        );
+    })
 
     return (
         <main className="content">
@@ -19,17 +30,7 @@ function Main({ cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onC
                 <button type="button" aria-label="Добавить" className="profile__add-button" onClick={onAddPlace} />
             </section>
             <section className="elements">
-                {cards.map((card) => {
-                    return (
-                        <Card
-                            key={card._id}
-                            card={card}
-                            onCardClick={onCardClick}
-                            onCardLike={onCardLike}
-                            onCardDelete={onCardDelete}
-                        />
-                    );
-                })}
+                {cardsElements}
             </section>
         </main>
     );

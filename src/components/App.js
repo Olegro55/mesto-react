@@ -47,15 +47,18 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    api.likeCard(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
+    api.likeCard(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
   }
   function handleCardDelete(card) {
     api.deleteCard(card)
       .then(_ => {
         setCards((state) => state.filter((c) => c._id !== card._id));
-        closeAllPopups();
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
@@ -111,8 +114,7 @@ function App() {
         <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
-        <PopupWithForm name="confirm-deletion" title="Вы уверены?" buttonText="Да">
-        </PopupWithForm>
+        <PopupWithForm name="confirm-deletion" title="Вы уверены?" buttonText="Да" />
 
         <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace} />
 
